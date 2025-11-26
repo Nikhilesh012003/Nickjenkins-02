@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Amzon | Shop Deals, Electronics, Fashion & More</title>
+  <style>
+    /* Reset and base */
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #e3e6e6;
+      color: #0f1111;
+      line-height: 1.4;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* Top header */
+    .header {
+      background: #131921;
+      color: #fff;
+      display: grid;
+      grid-template-columns: 180px 1fr 220px 140px;
+      gap: 12px;
+      align-items: center;
+      padding: 8px 12px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      user-select: none;
+    }
+    .logo-mark {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: #ff9900;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      color: #131921;
+    }
+    .logo-text {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    /* Address / deliver */
+    .deliver {
+      display: none;
+      color: #ccc;
+      font-size: 0.9rem;
+    }
+    .deliver b { color: #fff; }
+
+    /* Search */
+    .search {
+      display: flex;
+      width: 100%;
+    }
+    .search select {
+      background: #f3f3f3;
+      border: 1px solid #cdcdcd;
+      border-right: none;
+      padding: 8px;
+      font-size: 0.9rem;
+      outline: none;
+      border-radius: 6px 0 0 6px;
+    }
+    .search input {
+      flex: 1;
+      padding: 10px 12px;
+      border: 1px solid #cdcdcd;
+      outline: none;
+      font-size: 0.95rem;
+    }
+    .search button {
+      background: #febd69;
+      border: 1px solid #f3a847;
+      padding: 0 16px;
+      border-radius: 0 6px 6px 0;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .search button:hover { background: #f3a847; }
+
+    /* Account & cart */
+    .actions {
+      display: flex;
+      gap: 16px;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    .action {
+      color: #fff;
+      font-size: 0.9rem;
+      line-height: 1.2;
+    }
+    .action b { display: block; font-size: 1rem; }
+    .cart {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+      justify-content: flex-end;
+    }
+    .cart-count {
+      background: #f08804;
+      color: #131921;
+      border-radius: 999px;
+      min-width: 22px;
+      padding: 2px 6px;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    /* Secondary nav */
+    .subnav {
+      background: #232f3e;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 10px 12px;
+      font-size: 0.95rem;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .subnav a { color: #fff; }
+    .subnav .prime {
+      margin-left: auto;
+      background: #37475a;
+      padding: 6px 10px;
+      border-radius: 4px;
+    }
+
+    /* Hero banner */
+    .hero {
+      background: url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
+      min-height: 360px;
+      display: flex;
+      align-items: flex-end;
+      position: relative;
+    }
+    .hero-overlay {
+      width: 100%;
+      background: rgba(255,255,255,0.95);
+      margin: 16px;
+      padding: 14px 16px;
+      font-size: 0.95rem;
+      border-radius: 4px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .hero-overlay a { color: #007185; font-weight: 600; }
+
+    /* Cards grid */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      padding: 16px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 6px;
+      padding: 16px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 320px;
+    }
+    .card h3 { font-size: 1.05rem; margin: 0; }
+    .card .thumbs {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    .thumb {
+      background: #f7f7f7;
+      border: 1px solid #eee;
+      border-radius: 4px;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+    }
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .card a.cta {
+      color: #007185;
+      font-weight: 700;
+    }
+
+    /* Deals strip */
+    .strip {
+      background: #fff;
+      margin: 0 16px 16px;
+      border-radius: 6px;
+      padding: 12px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+    }
+    .strip h3 { margin: 6px 8px 12px; font-size: 1.05rem; }
+    .carousel {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: 160px;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 0 8px 8px;
+      scroll-snap-type: x mandatory;
+    }
+    .deal {
+      background: #fafafa;
+      border: 1px solid #eee;
+      border-radius: 6px;
+      padding: 8px;
+      scroll-snap-align: start;
+    }
+    .deal img {
+      width: 100%; height: 120px; object-fit: cover; border-radius: 4px;
+    }
+    .price { color: #b12704; font-weight: 700; }
+
+    /* Footer */
+    .back-to-top {
+      background: #37475a;
+      color: #fff;
+      text-align: center;
+      padding: 12px;
+      cursor: pointer;
+    }
+    .footer {
+      background: #232f3e;
+      color: #ddd;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      padding: 24px 16px;
+    }
+    .footer h4 { color: #fff; margin: 0 0 10px; }
+    .footer a { display: block; color: #ddd; margin: 6px 0; font-size: 0.95rem; }
+    .subfooter {
+      background: #131921;
+      color: #ddd;
+      text-align: center;
+      padding: 16px;
+      font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 1000px) {
+      .header { grid-template-columns: 150px 1fr 180px 100px; }
+      .grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .deliver { display: none; }
+      .header { grid-template-columns: 140px 1fr 120px 90px; gap: 8px; }
+      .grid { grid-template-columns: repeat(2, 1fr); }
+      .hero { min-height: 280px; }
+    }
+    @media (max-width: 520px) {
+      .header { grid-template-columns: 120px 1fr 80px 60px; }
+      .actions .action { display: none; }
+      .grid { grid-template-columns: 1fr; }
+      .subnav { font-size: 0.9rem; }
+      .footer { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <div class="logo-mark">a</div>
+      <div class="logo-text">Amzon</div>
+    </div>
+
+    <div class="deliver">
+      Deliver to <b>Nagpur 440001</b>
+    </div>
+
+    <form class="search" role="search" aria-label="Search products" onsubmit="event.preventDefault()">
+      <select aria-label="Category">
+        <option>All</option>
+        <option>Electronics</option>
+        <option>Fashion</option>
+        <option>Home</option>
+        <option>Books</option>
+      </select>
+      <input type="search" placeholder="Search Amzon" aria-label="Search" />
+      <button type="submit">Search</button>
+    </form>
+
+    <div class="actions">
+      <a href="#" class="action" aria-label="Account & Lists">
+        <span>Hello, sign in</span>
+        <b>Account & Lists</b>
+      </a>
+      <a href="#" class="action" aria-label="Returns & Orders">
+        <span>Returns</span>
+        <b>& Orders</b>
+      </a>
+    </div>
+
+    <a href="#" class="cart" aria-label="Cart">
+      <span class="cart-count" id="cartCount">0</span>
+      <span>Cart</span>
+    </a>
+  </header>
+
+  <!-- Sub navigation -->
+  <nav class="subnav" aria-label="Secondary">
+    <a href="#">All</a>
+    <a href="#">Best Sellers</a>
+    <a href="#">Mobiles</a>
+    <a href="#">Customer Service</a>
+    <a href="#">Fashion</a>
+    <a href="#">Electronics</a>
+    <a href="#">Prime</a>
+    <a href="#">Home & Kitchen</a>
+    <a href="#">Books</a>
+    <a href="#" class="prime">Try Prime</a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" aria-label="Hero promotion">
+    <div class="hero-overlay">
+      You are on the demo Amzon landing page. Shop the latest deals and discover curated picks across categories.
+      <a href="#">Click to explore today’s offers</a>.
+    </div>
+  </section>
+
+  <!-- Cards grid -->
+  <main>
+    <section class="grid" aria-label="Shop by category">
+      <article class="card">
+        <h3>Top picks in electronics</h3>
+        <div class="thumbs">
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=800&auto=format&fit=crop" alt="Smartphone" /></div>
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop" alt="Headphones" /></div>
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=800&auto=format&fit=crop" alt="Laptop" /></div>
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=800&auto=format&fit=crop" alt="Workspace" /></div>
+        </div>
+        <a href="#" class="cta">See more</a>
+      </article>
+
+      <article class="card">
+        <h3>Refresh your home</h3>
+        <div class="thumbs">
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1501045661006-fcebe023a8f6?q=80&w=800&auto=format&fit=crop" alt="Cushions" /></div>
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=800&auto=format&fit=crop" alt="Decor" /></div>
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1493666438817-866a91353ca9?q=80&w=800&auto=format&fit=crop" alt="Lighting" /></div>
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1505692794403-34d4982f88aa?q=80&w=800&auto=format&fit=crop" alt="Kitchenware" /></div>
+        </div>
+        <a href="#" class="cta">Explore home</a>
+      </article>
+
+      <article class="card">
+        <h3>Fashion trends</h3>
+        <div class="thumbs">
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=800&auto=format&fit=crop" alt="Streetwear" /></div>
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=800&auto=format&fit=crop" alt="Accessories" /></div>
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=800&auto=format&fit=crop" alt="Menswear" /></div>
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1445200916184-3d9f5a5d1d8d?q=80&w=800&auto=format&fit=crop" alt="Womenswear" /></div>
+        </div>
+        <a href="#" class="cta">Shop fashion</a>
+      </article>
+
+      <article class="card">
+        <h3>Daily essentials</h3>
+        <div class="thumbs">
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1584362917165-14f6c81ca68f?q=80&w=800&auto=format&fit=crop" alt="Groceries" /></div>
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1524592973402-00ae0b11a902?q=80&w=800&auto=format&fit=crop" alt="Cleaning" /></div>
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=800&auto=format&fit=crop" alt="Personal care" /></div>
+          <div class="thumb"><img src="https://images.unsplash.com/photo-1524592961264-0f7ec2c9c7f4?q=80&w=800&auto=format&fit=crop" alt="Baby care" /></div>
+        </div>
+        <a href="#" class="cta">View essentials</a>
+      </article>
+    </section>
+
+    <!-- Deals strip -->
+    <section class="strip" aria-label="Deals of the day">
+      <h3>Deals of the day</h3>
+      <div class="carousel">
+        <div class="deal">
+          <img src="https://images.unsplash.com/photo-1510552776732-01acc8e0bb5c?q=80&w=800&auto=format&fit=crop" alt="Smartwatch" />
+          <div class="price">₹2,999</div>
+          <small>Save 40%</small>
+        </div>
+        <div class="deal">
+          <img src="https://images.unsplash.com/photo-1495121605193-b116b5b09a0d?q=80&w=800&auto=format&fit=crop" alt="Bluetooth speaker" />
+          <div class="price">₹1,499</div>
+          <small>Limited time</small>
+        </div>
+        <div class="deal">
+          <img src="https://images.unsplash.com/photo-1523473827532-0f6f3dcd468a?q=80&w=800&auto=format&fit=crop" alt="Kitchen mixer" />
+          <div class="price">₹3,499</div>
+          <small>Top rated</small>
+        </div>
+        <div class="deal">
+          <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=800&auto=format&fit=crop" alt="Books bundle" />
+          <div class="price">₹899</div>
+          <small>Editor’s pick</small>
+        </div>
+        <div class="deal">
+          <img src="https://images.unsplash.com/photo-1472437774355-71e2e717b86a?q=80&w=800&auto=format&fit=crop" alt="Sneakers" />
+          <div class="price">₹2,199</div>
+          <small>Trending</small>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <div class="back-to-top" role="button" tabindex="0" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+    Back to top
+  </div>
+
+  <footer class="footer" aria-label="Footer">
+    <div>
+      <h4>Get to know us</h4>
+      <a href="#">About Amzon</a>
+      <a href="#">Careers</a>
+      <a href="#">Press Releases</a>
+      <a href="#">Corporate Responsibility</a>
+    </div>
+    <div>
+      <h4>Connect with us</h4>
+      <a href="#">Facebook</a>
+      <a href="#">Twitter</a>
+      <a href="#">Instagram</a>
+    </div>
+    <div>
+      <h4>Make money with us</h4>
+      <a href="#">Sell on Amzon</a>
+      <a href="#">Affiliate Program</a>
+      <a href="#">Advertise</a>
+      <a href="#">Fulfilment</a>
+    </div>
+    <div>
+      <h4>Let us help you</h4>
+      <a href="#">COVID-19 & Shopping</a>
+      <a href="#">Returns Centre</a>
+      <a href="#">100% Purchase Protection</a>
+      <a href="#">Help</a>
+    </div>
+  </footer>
+
+  <div class="subfooter">
+    © 2025 Amzon Demo. This is a non-commercial mockup for educational purposes.
+  </div>
+
+  <script>
+    // Minimal demo JS: increment cart on CTA clicks
+    document.querySelectorAll('.cta').forEach(cta => {
+      cta.addEventListener('click', (e) => {
+        e.preventDefault();
+        const el = document.getElementById('cartCount');
+        el.textContent = String(Number(el.textContent) + 1);
+      });
+    });
+  </script>
+</body>
+</html>
